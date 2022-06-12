@@ -14,8 +14,10 @@ document.getElementById("load").addEventListener("click", () => {
             document.getElementById("title-name").textContent = titleName
             document.getElementById("artist-name").textContent = artistName */
             document.getElementById("results").innerHTML = ``
+            fechedData = data
             for (let i = 0; i < 10; i++) {
                 const titleName = data.data[i].album.title
+                
                 const artistName = data.data[i].artist.name
                 // console.log(titleName)
                 // console.log(artistName)
@@ -26,8 +28,23 @@ document.getElementById("load").addEventListener("click", () => {
                         <p class="author lead">Album by <span id="artist-name">${artistName}</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button onclick="showLyrics(${i})"
+                            class="btn btn-success">Get Lyrics</button>
                     </div>`
             }
         })
 })
+function showLyrics(index) {
+    const title = fechedData.data[index].title
+    const artist = fechedData.data[index].artist.name
+    fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data.lyrics)
+            const lyrics = data.lyrics
+            if (lyrics == undefined) {
+                alert("lyrics not found")
+            }
+            document.getElementById("single-lyrics").innerHTML = `<pre>${lyrics}</pre>`
+        })
+}
