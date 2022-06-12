@@ -1,4 +1,4 @@
-# hard-rock-solution
+# lyrics finder
 ### Search Song
 api link: https://api.lyrics.ovh/suggest/:searchText
 
